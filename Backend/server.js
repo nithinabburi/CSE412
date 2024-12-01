@@ -66,29 +66,36 @@ app.get("/protected", authenticateToken, (req, res) => {
 });
 
 // API Endpoint to fetch all authors from the 'author' table
-app.get("/api/data", async (req, res) => {
+// API Endpoint to fetch all books from the 'book' table
+app.get("/api/books", async (req, res) => {
   try {
-    console.log("Fetching data from the database...");
-    const result = await pool.query("SELECT * FROM author");
+    console.log("Fetching books from the database...");
+    const result = await pool.query("SELECT * FROM book ORDER BY isbn ASC");
     console.log("Query result:", result.rows); // Log the query result
-    res.status(200).json(result.rows);
+    res.status(200).json(result.rows); // Return the books as JSON
   } catch (error) {
-    console.error("Error fetching data from the database:", error.message); // Log the error
+    console.error("Error fetching books from the database:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// API Endpoint to insert a new author into the 'author' table
-app.post("/api/data", async (req, res) => {
-  const { author_id, name } = req.body; // Use 'author_id' and 'name' columns
+// API Endpoint to fetch book details by ISBN
+app.get("/api/books/:isbn", async (req, res) => {
+  const { isbn } = req.params; // Get the ISBN from the route parameter
   try {
+    console.log(`Fetching details for book with ISBN: ${isbn}`);
     const result = await pool.query(
-      "INSERT INTO author (author_id, name) VALUES ($1, $2) RETURNING *",
-      [author_id, name]
+      "SELECT isbn, name, description, price FROM book WHERE isbn = $1",
+      [isbn]
     );
-    res.status(201).json(result.rows[0]); // Return the inserted row
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+
+    res.status(200).json(result.rows[0]); // Return the book details
   } catch (error) {
-    console.error("Error inserting data into database:", error.message);
+    console.error("Error fetching book details from the database:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
