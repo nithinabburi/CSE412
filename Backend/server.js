@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
-
+const searchRoutes = require('./routes/SearchRoutes');
 const userRoutes = require("./routes/userRoutes");
 const loginRoutes = require("./routes/loginRoutes"); // Import loginRoutes.js
 console.log("userRoutes:", userRoutes); // Debug log
@@ -64,7 +64,7 @@ const authenticateToken = (req, res, next) => {
 app.get("/protected", authenticateToken, (req, res) => {
   res.status(200).json({ message: "Welcome to the protected route!", user: req.user });
 });
-
+app.use('/api/search', searchRoutes);
 // API Endpoint to fetch all authors from the 'author' table
 // API Endpoint to fetch all books from the 'book' table
 app.get("/api/books", async (req, res) => {
@@ -78,6 +78,8 @@ app.get("/api/books", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
 
 // API Endpoint to fetch book details by ISBN
 app.get("/api/books/:isbn", async (req, res) => {
@@ -135,3 +137,6 @@ const PORT = process.env.PORT || 5000; // Use PORT from .env or default to 5000
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
+

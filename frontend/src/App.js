@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import Books from "./components/books"; // Adjusted path to import Books component
-import BookDetails from "./components/BookDetails"; // Import BookDetails component
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Import React Router
+import Books from "./components/books"; // Adjust the path if needed
+import BookDetails from "./components/BookDetails"; // Adjust the path if needed
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -16,8 +16,11 @@ const App = () => {
 
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5001";
 
+  // Handle user login
   const handleLogin = async (e) => {
     e.preventDefault();
+    setAuthError(null);
+    setLoading(true);
     try {
       const response = await axios.post(`${API_URL}/users/login`, {
         email,
@@ -26,15 +29,19 @@ const App = () => {
       console.log("Login response:", response.data);
       localStorage.setItem("token", response.data.token);
       setUser(response.data.user.name);
+      setLoading(false);
     } catch (err) {
       console.error("Login error:", err.response?.data?.error || err.message);
       setAuthError("Invalid email or password. Please try again.");
+      setLoading(false);
     }
   };
 
+  // Handle user signup
   const handleSignup = async (e) => {
     e.preventDefault();
     setAuthError(null);
+    setLoading(true);
     try {
       await axios.post(`${API_URL}/users/register`, {
         email,
@@ -43,9 +50,19 @@ const App = () => {
       });
       alert("Signup successful! Please log in.");
       setIsSignup(false);
+      setLoading(false);
     } catch (err) {
-      console.error("Signup error:", err.message);
+      console.error("Signup error:", err.response?.data?.error || err.message);
       setAuthError("Signup failed. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  // Logout user
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to log out?")) {
+      setUser(null);
+      localStorage.removeItem("token");
     }
   };
 
@@ -58,73 +75,124 @@ const App = () => {
               <div>
                 <h2>Signup</h2>
                 <form onSubmit={handleSignup}>
-                  <div>
-                    <label>Name:</label>
+                  <div style={{ marginBottom: "10px" }}>
+                    <label style={{ display: "block" }}>Name:</label>
                     <input
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
+                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
                     />
                   </div>
-                  <div>
-                    <label>Email:</label>
+                  <div style={{ marginBottom: "10px" }}>
+                    <label style={{ display: "block" }}>Email:</label>
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
                     />
                   </div>
-                  <div>
-                    <label>Password:</label>
+                  <div style={{ marginBottom: "10px" }}>
+                    <label style={{ display: "block" }}>Password:</label>
                     <input
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
                     />
                   </div>
                   {authError && <p style={{ color: "red" }}>{authError}</p>}
-                  <button type="submit" disabled={loading}>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    style={{
+                      padding: "10px 20px",
+                      fontSize: "16px",
+                      backgroundColor: "#007bff",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                  >
                     {loading ? "Processing..." : "Signup"}
                   </button>
                 </form>
                 <p>
                   Already have an account?{" "}
-                  <button onClick={() => setIsSignup(false)}>Login</button>
+                  <button
+                    onClick={() => setIsSignup(false)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "#007bff",
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Login
+                  </button>
                 </p>
               </div>
             ) : (
               <div>
                 <h2>Login</h2>
                 <form onSubmit={handleLogin}>
-                  <div>
-                    <label>Email:</label>
+                  <div style={{ marginBottom: "10px" }}>
+                    <label style={{ display: "block" }}>Email:</label>
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
                     />
                   </div>
-                  <div>
-                    <label>Password:</label>
+                  <div style={{ marginBottom: "10px" }}>
+                    <label style={{ display: "block" }}>Password:</label>
                     <input
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
                     />
                   </div>
                   {authError && <p style={{ color: "red" }}>{authError}</p>}
-                  <button type="submit" disabled={loading}>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    style={{
+                      padding: "10px 20px",
+                      fontSize: "16px",
+                      backgroundColor: "#007bff",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                  >
                     {loading ? "Processing..." : "Login"}
                   </button>
                 </form>
                 <p>
                   Don't have an account?{" "}
-                  <button onClick={() => setIsSignup(true)}>Signup</button>
+                  <button
+                    onClick={() => setIsSignup(true)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "#007bff",
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Signup
+                  </button>
                 </p>
               </div>
             )}
@@ -137,11 +205,16 @@ const App = () => {
               <Route path="/book/:isbn" element={<BookDetails />} /> {/* Book details */}
             </Routes>
             <button
-              onClick={() => {
-                if (window.confirm("Are you sure you want to log out?")) {
-                  setUser(null);
-                  localStorage.removeItem("token");
-                }
+              onClick={handleLogout}
+              style={{
+                padding: "10px 20px",
+                fontSize: "16px",
+                backgroundColor: "#dc3545",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                marginTop: "20px",
               }}
             >
               Logout
