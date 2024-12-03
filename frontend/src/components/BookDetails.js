@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import './BookDetails.css';
 
 const BookDetails = () => {
-  const { isbn } = useParams(); // Get ISBN from the route
+  const { isbn } = useParams(); 
+  const navigate = useNavigate(); 
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,12 +22,12 @@ const BookDetails = () => {
   
         const bookResponse = response.data;
   
-        // Fetch author details for the book
+        
         const authorResponse = await axios.get(`${API_URL}/api/books-authors`, {
           headers: { Authorization: `Bearer ${token}` },
         });
   
-        // Find the author for this specific book
+        
         const author = authorResponse.data.find((entry) => entry.book_name === bookResponse.name);
   
         setBook({ ...bookResponse, author_name: author?.author_name || "Unknown Author" });
@@ -41,24 +43,36 @@ const BookDetails = () => {
     fetchBookDetails();
   }, [isbn, API_URL]);
   
+  const handleBuyNowClick = () => {
+    if (book) {
+      navigate("/checkout", { state: { book } }); 
+    } else {
+      console.error("Book details are missing");
+    }
+  };
 
   if (loading) return <p>Loading book details...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+    <div className="book-details-container">
       {book && (
         <>
-          <h1>{book.name}</h1>
-          <p><strong>ISBN:</strong> {book.isbn}</p>
-          <p><strong>Description:</strong> {book.description}</p>
-          <p><strong>Price:</strong> ${book.price}</p>
-          <p><strong>Author:</strong> {book.author_name}</p>
-          <button style={{ padding: "10px", fontSize: "16px" }}>Buy Now</button>
+          <h1 className="book-title">{book.name}</h1>
+          <p className="book-info"><strong>ISBN:</strong> {book.isbn}</p>
+          <p className="book-info"><strong>Description:</strong> {book.description}</p>
+          <p className="book-info"><strong>Price:</strong> ${book.price}</p>
+          <p className="book-info"><strong>Author:</strong> {book.author_name}</p>
+          <button
+            className="buy-now-button"
+            onClick={handleBuyNowClick}
+          >
+            Buy Now
+          </button>
         </>
       )}
     </div>
-  );  
+  );
 };
 
 export default BookDetails;

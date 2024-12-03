@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db"); // Ensure the pool is correctly configured
+const pool = require("../db"); 
 
-router.get("/", async (req, res) => { // Root route for /api/search
+router.get("/", async (req, res) => { 
     console.log("Search endpoint hit with query:", req.query.q);
     const { q } = req.query;
 

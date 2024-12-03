@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './SearchBar.css';
 
 const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
@@ -12,33 +13,15 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center" }}>
+    <div className="search-bar-container">
       <input
         type="text"
         placeholder="Search books..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        style={{
-          width: "300px",
-          padding: "10px",
-          fontSize: "16px",
-          border: "1px solid #ccc",
-          borderRadius: "4px",
-        }}
+        className="search-input"
       />
-      <button
-        onClick={handleSearch}
-        style={{
-          marginLeft: "10px",
-          padding: "10px 20px",
-          fontSize: "16px",
-          backgroundColor: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-        }}
-      >
+      <button onClick={handleSearch} className="search-button">
         Search
       </button>
     </div>

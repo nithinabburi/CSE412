@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Books from "./components/books"; // Adjust the path if needed
-import BookDetails from "./components/BookDetails"; // Adjust the path if needed
+import Books from "./components/books"; 
+import BookDetails from "./components/BookDetails"; 
+import Checkout from "./components/Checkout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -16,7 +17,7 @@ const App = () => {
 
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5001";
 
-  // Handle user login
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setAuthError(null);
@@ -27,6 +28,7 @@ const App = () => {
         password,
       });
       console.log("Login response:", response.data);
+      localStorage.setItem("userEmail", response.data.user.email);
       localStorage.setItem("token", response.data.token);
       setUser(response.data.user.name);
       setLoading(false);
@@ -37,7 +39,7 @@ const App = () => {
     }
   };
 
-  // Handle user signup
+  
   const handleSignup = async (e) => {
     e.preventDefault();
     setAuthError(null);
@@ -58,7 +60,7 @@ const App = () => {
     }
   };
 
-  // Logout user
+  
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       setUser(null);
@@ -203,6 +205,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Books />} /> {/* Books list */}
               <Route path="/book/:isbn" element={<BookDetails />} /> {/* Book details */}
+              <Route path="/checkout" element={<Checkout />} /> {/* Checkout */}
             </Routes>
             <button
               onClick={handleLogout}
