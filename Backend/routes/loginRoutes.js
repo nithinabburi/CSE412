@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const pool = require("../db");
 const { body, validationResult } = require("express-validator");
 
@@ -36,15 +35,10 @@ router.post(
         return res.status(400).json({ error: "Invalid email or password." });
       }
 
-      const token = jwt.sign({ email: user.email, name: user.name }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
-
       console.log("Login successful for:", email);
       res.status(200).json({
         message: "Login successful!",
         user: { email: user.email, name: user.name },
-        token,
       });
     } catch (error) {
       console.error("Error during login:", error);

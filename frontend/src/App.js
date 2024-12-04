@@ -4,6 +4,7 @@ import Books from "./components/books";
 import BookDetails from "./components/BookDetails"; 
 import Checkout from "./components/Checkout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import './App.css';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -75,73 +76,116 @@ const App = () => {
           <div>
             {isSignup ? (
               <div>
-                <h2>Signup</h2>
-                <form onSubmit={handleSignup}>
-                  <div style={{ marginBottom: "10px" }}>
-                    <label style={{ display: "block" }}>Name:</label>
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      required
-                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
-                    />
-                  </div>
-                  <div style={{ marginBottom: "10px" }}>
-                    <label style={{ display: "block" }}>Email:</label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
-                    />
-                  </div>
-                  <div style={{ marginBottom: "10px" }}>
-                    <label style={{ display: "block" }}>Password:</label>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
-                    />
-                  </div>
-                  {authError && <p style={{ color: "red" }}>{authError}</p>}
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    style={{
-                      padding: "10px 20px",
-                      fontSize: "16px",
-                      backgroundColor: "#007bff",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {loading ? "Processing..." : "Signup"}
-                  </button>
-                </form>
-                <p>
-                  Already have an account?{" "}
-                  <button
-                    onClick={() => setIsSignup(false)}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      color: "#007bff",
-                      cursor: "pointer",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    Login
-                  </button>
-                </p>
-              </div>
+                <div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "#f8f9fa",
+  }}
+>
+  <div
+    style={{
+      width: "400px",
+      textAlign: "center",
+      padding: "20px",
+      backgroundColor: "#fff",
+      border: "1px solid #ddd",
+      borderRadius: "8px",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    }}
+  >
+    <h2>Signup</h2>
+    <form onSubmit={handleSignup}>
+      <div style={{ marginBottom: "10px" }}>
+        <label style={{ display: "block", textAlign: "left" }}>Name:</label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          style={{
+            width: "100%",
+            padding: "8px",
+            fontSize: "14px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+          }}
+        />
+      </div>
+      <div style={{ marginBottom: "10px" }}>
+        <label style={{ display: "block", textAlign: "left" }}>Email:</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          style={{
+            width: "100%",
+            padding: "8px",
+            fontSize: "14px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+          }}
+        />
+      </div>
+      <div style={{ marginBottom: "10px" }}>
+        <label style={{ display: "block", textAlign: "left" }}>Password:</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          style={{
+            width: "100%",
+            padding: "8px",
+            fontSize: "14px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+          }}
+        />
+      </div>
+      {authError && <p style={{ color: "red" }}>{authError}</p>}
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <button
+          type="submit"
+          disabled={loading}
+          style={{
+            padding: "10px 20px",
+            fontSize: "16px",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          {loading ? "Processing..." : "Signup"}
+        </button>
+      </div>
+    </form>
+    <p style={{ marginTop: "10px" }}>
+      Already have an account?{" "}
+      <button
+        onClick={() => setIsSignup(false)}
+        style={{
+          background: "none",
+          border: "none",
+          color: "#007bff",
+          cursor: "pointer",
+          textDecoration: "underline",
+        }}
+      >
+        Login
+      </button>
+    </p>
+  </div>
+</div>
+</div>
             ) : (
-              <div>
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#f8f9fa" }}>
+              <div style={{ width: "400px",textAlign: "center", padding: "20px", backgroundColor: "#fff", border: "1px solid #ddd", borderRadius: "8px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }}>
                 <h2>Login</h2>
                 <form onSubmit={handleLogin}>
                   <div style={{ marginBottom: "10px" }}>
@@ -151,7 +195,7 @@ const App = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
+                      style={{ width: "100%", padding: "8px", fontSize: "14px", border: "1px solid #ccc", borderRadius: "4px" }}
                     />
                   </div>
                   <div style={{ marginBottom: "10px" }}>
@@ -161,7 +205,7 @@ const App = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      style={{ width: "100%", padding: "8px", fontSize: "14px" }}
+                      style={{ width: "100%", padding: "8px", fontSize: "14px", border: "1px solid #ccc", borderRadius: "4px" }}
                     />
                   </div>
                   {authError && <p style={{ color: "red" }}>{authError}</p>}
@@ -170,7 +214,7 @@ const App = () => {
                     disabled={loading}
                     style={{
                       padding: "10px 20px",
-                      fontSize: "16px",
+                      fontSize: "14px",
                       backgroundColor: "#007bff",
                       color: "#fff",
                       border: "none",
@@ -191,12 +235,15 @@ const App = () => {
                       color: "#007bff",
                       cursor: "pointer",
                       textDecoration: "underline",
+                      marginTop: "10px",
                     }}
                   >
                     Signup
                   </button>
                 </p>
               </div>
+            </div>
+            
             )}
           </div>
         ) : (
@@ -228,5 +275,6 @@ const App = () => {
     </Router>
   );
 };
+
 
 export default App;

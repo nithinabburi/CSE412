@@ -15,16 +15,13 @@ const BookDetails = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const token = localStorage.getItem("token");
         const response = await axios.get(`${API_URL}/api/books/${isbn}`, {
-          headers: { Authorization: `Bearer ${token}` },
         });
   
         const bookResponse = response.data;
   
         
         const authorResponse = await axios.get(`${API_URL}/api/books-authors`, {
-          headers: { Authorization: `Bearer ${token}` },
         });
   
         

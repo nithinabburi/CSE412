@@ -25,7 +25,6 @@ const Login = ({ onLogin }) => {
     try {
       const response = await axios.post("http://localhost:5001/login/", { email, password });
       console.log("Login response data:", response.data); 
-      localStorage.setItem("token", response.data.token);
       onLogin(response.data.user.name);
       setLoading(false);
     } catch (err) {

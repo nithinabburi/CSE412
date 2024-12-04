@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
 const searchRoutes = require('./routes/SearchRoutes');
 const userRoutes = require("./routes/userRoutes");
@@ -54,22 +53,6 @@ app.use("/users/login", loginRoutes);
 
 
 
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; 
-  if (!token) return res.status(401).json({ error: "Access denied. No token provided." });
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ error: "Invalid token." });
-    req.user = user; 
-    next(); 
-  });
-};
-
-
-app.get("/protected", authenticateToken, (req, res) => {
-  res.status(200).json({ message: "Welcome to the protected route!", user: req.user });
-});
 app.use('/api/search', searchRoutes);
 
 app.get("/api/books", async (req, res) => {

@@ -20,9 +20,7 @@ const Books = () => {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem("token");
         const response = await axios.get(`${API_URL}/api/books`, {
-          headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Fetched books:", response.data); 
         setBooks(response.data);
@@ -53,12 +51,9 @@ const Books = () => {
     setError(null);
   
     try {
-      const token = localStorage.getItem("token");
-      console.log("Token Used:", token); 
-  
-      const response = await axios.get(`${API_URL}/api/search`, {
+
+        const response = await axios.get(`${API_URL}/api/search`, {
         params: { q: query },
-        headers: { Authorization: `Bearer ${token}` },
       });
   
       console.log("Search API Response:", response.data); 
