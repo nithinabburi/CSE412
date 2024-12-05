@@ -27,7 +27,7 @@ const BookDetails = () => {
         
         const author = authorResponse.data.find((entry) => entry.book_name === bookResponse.name);
   
-        setBook({ ...bookResponse, author_name: author?.author_name || "Unknown Author" });
+        setBook({ ...bookResponse, author_name: author?.author_name || "Unknown Author", condition: author?.condition || "Condition Not Available" });
         setError(null);
       } catch (err) {
         console.error("Error fetching book or author details:", err.message);
@@ -60,6 +60,7 @@ const BookDetails = () => {
           <p className="book-info"><strong>Description:</strong> {book.description}</p>
           <p className="book-info"><strong>Price:</strong> ${book.price}</p>
           <p className="book-info"><strong>Author:</strong> {book.author_name}</p>
+          <p className="book-info"><strong>Condition:</strong> {book.condition}</p>
           <button
             className="buy-now-button"
             onClick={handleBuyNowClick}

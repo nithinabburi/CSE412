@@ -95,17 +95,21 @@ app.get("/api/books-authors", async (req, res) => {
   try {
     console.log("Fetching books with authors...");
     const query = `
-      SELECT 
-        b.name AS book_name, 
-        a.name AS author_name 
-      FROM 
-        written_by wb
-      JOIN 
-        book b ON wb.isbn = b.isbn
-      JOIN 
-        author a ON wb.author_id = a.author_id
-      ORDER BY b.name ASC;
-    `;
+    SELECT 
+    b.name AS book_name, 
+    a.name AS author_name, 
+    c.condition
+  FROM 
+    written_by wb
+  JOIN 
+    book b ON wb.isbn = b.isbn
+  JOIN 
+    author a ON wb.author_id = a.author_id
+  JOIN 
+    copy c ON b.isbn = c.isbn
+  ORDER BY b.name ASC;
+`;
+
     const result = await pool.query(query);
     console.log("Books with authors fetched:", result.rows); 
     res.status(200).json(result.rows); 
