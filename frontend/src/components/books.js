@@ -79,13 +79,21 @@ const Books = () => {
     setError(null); 
   };
 
+  const handlePastOrders = () => {
+    navigate("/past-orders"); 
+  };
+
   if (loading) return <p>Loading books...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div className="books-container">
-      <h2>Books List</h2>
-      
+      <div className="header">
+        <h2>Books List</h2>
+        <button onClick={handlePastOrders} className="past-orders-button">
+          Past Orders
+        </button>
+      </div>
       <SearchBar onSearch={handleSearch} />
 
       <button

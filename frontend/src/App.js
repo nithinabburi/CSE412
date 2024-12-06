@@ -3,6 +3,7 @@ import axios from "axios";
 import Books from "./components/books"; 
 import BookDetails from "./components/BookDetails"; 
 import Checkout from "./components/Checkout";
+import PastOrders from "./components/pastOrders";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css';
 
@@ -251,6 +252,7 @@ const App = () => {
             <h1>Welcome, {user}!</h1>
             <Routes>
               <Route path="/" element={<Books />} /> {/* Books list */}
+              <Route path="/past-orders" element={<PastOrders />} />
               <Route path="/book/:isbn" element={<BookDetails />} /> {/* Book details */}
               <Route path="/checkout" element={<Checkout />} /> {/* Checkout */}
             </Routes>

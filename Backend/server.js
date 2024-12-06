@@ -7,6 +7,7 @@ const searchRoutes = require('./routes/SearchRoutes');
 const userRoutes = require("./routes/userRoutes");
 const loginRoutes = require("./routes/loginRoutes"); 
 const purchaseRoutes = require('./routes/purchaseRoutes');
+const ordersRouter = require("./routes/pastordersRoute");
 console.log("userRoutes:", userRoutes); 
 console.log("loginRoutes:", loginRoutes); 
 
@@ -37,6 +38,9 @@ pool.connect((err, client, release) => {
 
 
 app.use("/users", userRoutes);
+
+
+app.use("/api/orders", ordersRouter);
 
 
 app.use('/api/purchase', purchaseRoutes);

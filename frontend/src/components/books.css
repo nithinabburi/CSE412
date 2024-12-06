@@ -5,6 +5,26 @@
     font-family: Arial, sans-serif;
   }
   
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .past-orders-button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .past-orders-button:hover {
+    background-color: #218838;
+  }
+  
   .back-button {
     margin: 20px 0;
     padding: 10px 20px;
